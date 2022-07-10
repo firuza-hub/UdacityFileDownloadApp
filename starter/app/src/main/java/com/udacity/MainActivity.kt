@@ -7,8 +7,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,10 +31,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        val radioGroup = findViewById<RadioGroup>(R.id.rgLinks)
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         custom_button.setOnClickListener {
-            download()
+            val checkedRadioButton = findViewById<MyRadioButton>(radioGroup.checkedRadioButtonId)
+          //  Toast.makeText(this, checkedRadioButton.linkText, Toast.LENGTH_SHORT).show()
+
+            download(checkedRadioButton.linkText)
+
+
         }
     }
 
@@ -41,9 +50,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun download() {
+    private fun download(linkText: String) {
         val request =
-            DownloadManager.Request(Uri.parse(URL))
+            DownloadManager.Request(Uri.parse(linkText))
                 .setTitle(getString(R.string.app_name))
                 .setDescription(getString(R.string.app_description))
                 .setRequiresCharging(false)
@@ -53,6 +62,29 @@ class MainActivity : AppCompatActivity() {
         val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
         downloadID =
             downloadManager.enqueue(request)// enqueue puts the download request in the queue.
+
+
+//        Thread {
+//            var downloading = true
+//            while (downloading) {
+//                val q = DownloadManager.Query()
+//                q.setFilterById(downloadID)
+//                val cursor: Cursor = downloadManager.query(q)
+//                cursor.moveToFirst()
+//                val bytes_downloaded: Int = cursor.getInt(
+//                    cursor
+//                        .getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)
+//                )
+//                val bytes_total: Int =
+//                    cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES))
+//                if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
+//                    downloading = false
+//                }
+//                val dl_progress = (bytes_downloaded * 100L / bytes_total).toInt()
+//                runOnUiThread { custom_button.progress = dl_progress as Int }
+//                cursor.close()
+//            }
+//        }.start()
     }
 
     companion object {
