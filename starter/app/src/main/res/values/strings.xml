@@ -19,4 +19,8 @@
     <string name="radio_button_link_1">https://github.com/bumptech/glide</string>
     <string name="radio_button_link_2">https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter</string>
     <string name="radio_button_link_3">https://github.com/square/retrofit</string>
+    <string name="file_name_label">File Name:</string>
+    <string name="file_name">File Name</string>
+    <string name="status">Status</string>
+    <string name="status_label">Status:</string>
 </resources>
