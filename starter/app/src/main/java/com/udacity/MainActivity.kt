@@ -52,9 +52,10 @@ class MainActivity : AppCompatActivity() {
 
         custom_button.setOnClickListener {
             val checkedRadioButton = findViewById<MyRadioButton>(radioGroup.checkedRadioButtonId)
-            //  Toast.makeText(this, checkedRadioButton.linkText, Toast.LENGTH_SHORT).show()
+            if(checkedRadioButton == null)
+              Toast.makeText(this, "Please select one of the options above", Toast.LENGTH_SHORT).show()
 
-//            download(checkedRadioButton.linkText)
+           download(checkedRadioButton.linkText)
 
         }
     }

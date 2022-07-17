@@ -1,0 +1,38 @@
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- TODO: Define a Transition -->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/tvStatus" />
+    </ConstraintSet>
+
+    <!-- TODO: Define @id/start -->
+    <Transition
+        app:constraintSetEnd="@+id/end"
+        app:constraintSetStart="@+id/start"
+        app:duration="2000">
+        <!-- MotionLayout will handle clicks on @id/red_star to "toggle" the animation between the start and end -->
+        <OnClick
+            app:clickAction="toggle"
+            app:targetId="@id/tvStatus" />
+        <KeyFrameSet>
+            <KeyAttribute
+                android:rotation="-360"
+                app:framePosition="50"
+                android:scaleY="2.0"
+                android:scaleX="2.0"
+                app:motionTarget="@id/tvStatus" />
+            <KeyAttribute
+                android:rotation="-720"
+                app:framePosition="100"
+                app:motionTarget="@id/tvStatus" />
+        </KeyFrameSet>
+    </Transition>
+
+    <!-- TODO: Define @id/end -->
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@+id/tvStatus" />
+
+    </ConstraintSet>
+
+
+</MotionScene>
