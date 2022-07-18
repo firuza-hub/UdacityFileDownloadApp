@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
               Toast.makeText(this, "Please select one of the options above", Toast.LENGTH_SHORT).show()
 
            download(checkedRadioButton.linkText)
-
         }
     }
 

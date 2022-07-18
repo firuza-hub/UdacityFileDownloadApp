@@ -1,4 +1,4 @@
-package com.udacity.utils
+ package com.udacity.utils
 
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -29,8 +29,8 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setContentTitle(
             applicationContext
                 .getString(R.string.notification_title)
-        )
-        .setContentText(messageBody).setContentIntent(detailPendingIntent).setAutoCancel(true)
+        ).addAction(R.drawable.ic_launcher_foreground, applicationContext.getString(R.string.notification_button) ,detailPendingIntent )
+        .setContentText(messageBody).setAutoCancel(true)
 
 
     notify(NOTIFICATION_ID, builder.build())
