@@ -1,7 +1,5 @@
 package com.udacity
 
-import android.R.attr.angle
-import android.R.attr.strokeWidth
 import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
@@ -46,7 +44,11 @@ class LoadingButton @JvmOverloads constructor(
     }
 
     private var rectDimens = Rect(0, 0, widthSize, heightSize)
-    private var loadingText = "Download"
+    private var btnCurrentText:String
+    private var btnLoadingText:String
+    private var buttonLoadingColor:Int
+    private var btnText:String
+    private var buttonColor:Int
 
     val rect = RectF(
         widthSize -widthSize/2F + 800,
@@ -56,14 +58,19 @@ class LoadingButton @JvmOverloads constructor(
     )
 
     val START_ANGLE_POINT = 270F;
-    //Initial Angle (optional, it can be zero)
-
-    //Initial Angle (optional, it can be zero)
     var angle = 0F
 
 
     init {
         isClickable = true
+        var a = context.obtainStyledAttributes(attrs, R.styleable.LoadingButton)
+
+        btnLoadingText = a.getText(R.styleable.LoadingButton_buttonLoadingText).toString()
+        btnText = a.getText(R.styleable.LoadingButton_buttonText).toString()
+        buttonLoadingColor = a.getColor(R.styleable.LoadingButton_buttonLoadingColor, Color.GRAY)
+        buttonColor = a.getColor(R.styleable.LoadingButton_buttonColor, Color.YELLOW)
+        btnCurrentText = btnText
+        a.recycle()
     }
 
     override fun performClick(): Boolean {
@@ -75,8 +82,8 @@ class LoadingButton @JvmOverloads constructor(
         anim.addUpdateListener { valueAnimator ->
 
             rectDimens.bottom = heightSize
-            paint.color = Color.parseColor("#154c79")
-            loadingText = "Loading..."
+            paint.color = buttonLoadingColor
+            btnCurrentText = btnLoadingText
             rectDimens.right = valueAnimator.animatedValue as Int
             angle += 360 / (widthSize/10)
             invalidate()
@@ -88,7 +95,7 @@ class LoadingButton @JvmOverloads constructor(
             override fun onAnimationStart(animation: Animator?) {}
 
             override fun onAnimationEnd(animation: Animator?) {
-                loadingText = "Download"
+                btnCurrentText = btnText
                 rectDimens.right = 0
                 angle = 0F
                 isClickable = true
@@ -102,9 +109,9 @@ class LoadingButton @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        this.setBackgroundColor(Color.parseColor("#e28743"))
+        this.setBackgroundColor(buttonColor)
         canvas?.drawRect(rectDimens, paint)
-        canvas?.drawText(loadingText, widthSize / 2F, heightSize / 2F + 20F, textPaint)
+        canvas?.drawText(btnCurrentText, widthSize / 2F, heightSize / 2F + 20F, textPaint)
         canvas?.drawArc(rect, START_ANGLE_POINT, angle, true, circlePaint);
     }
 
